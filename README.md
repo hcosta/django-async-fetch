@@ -1,7 +1,9 @@
 # async-selective-fetch-with-django-2
 Simple test with javascript Fetch API and Django 2 with async templates.
 
-## Project Settings
+## Backend
+
+### Project Settings
 Configure the base templates:
 
 ```python
@@ -9,7 +11,7 @@ TEMPLATE_BASE_SYNC_PATH = "core/base.html"
 TEMPLATE_BASE_ASYNC_PATH = "core/base_async.html"
 ```
 
-## Backend App Views
+## App Views
 Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*. This gonna select one of both templates after checking request.GET parameter *?async=true*.
 
 ```python
@@ -32,8 +34,9 @@ class HomePageView(TemplateBaseMixin, TemplateView):
 class SamplePageView(TemplateBaseMixin, TemplateView):
     template_name = "core/sample.html"
 ```
+## Frontend
 
-## Frontend Sync Template
+### Sync Template
 Set 'async' class in your anchors, also set the id of element to push async data with *data-target* attribute.
 
 ```html
@@ -45,21 +48,21 @@ Set 'async' class in your anchors, also set the id of element to push async data
     </div>
 ```
 
-## Frontend Async Template
+### Async Template
 The async template has just the content block.
 
 ```html
    {% block content %}{% endblock %}
 ```
 
-## Frontend Extending Templates
+### Extending Templates
 This is where the magic happens, setting up the template dynamically.
 
 ```html
    {% extends template_base %}
 ```
 
-## Frontend Javascript
+### Javascript
 Use the custom Javascript to capture click on anchors with async class and create the fetch request instead.
 
 ```javascript
