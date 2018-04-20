@@ -1,7 +1,7 @@
 # async-selective-fetch-with-django-2
 Simple test with javascript Fetch API and Django 2 with async templates.
 
-## Settings
+## Project Settings
 Configure the base templates:
 
 ```python
@@ -9,7 +9,31 @@ TEMPLATE_BASE_SYNC_PATH = "core/base.html"
 TEMPLATE_BASE_ASYNC_PATH = "core/base_async.html"
 ```
 
-## Sync Template
+## Backend App Views
+Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*. This gonna select one of both templates after checking request.GET parameter *?async=true*.
+
+```python
+from django.views.generic.base import TemplateView
+from django.shortcuts import render
+from django.conf import settings
+
+
+class TemplateBaseMixin(object):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['template_base'] = settings.TEMPLATE_BASE_ASYNC_PATH if self.request.GET.get('async', None) == 'true' else settings.TEMPLATE_BASE_SYNC_PATH
+        return context
+
+
+class HomePageView(TemplateBaseMixin, TemplateView):
+    template_name = "core/home.html"
+
+
+class SamplePageView(TemplateBaseMixin, TemplateView):
+    template_name = "core/sample.html"
+```
+
+## Frontend Sync Template
 Set 'async' class in your anchors, also set the id of element to push async data with *data-target* attribute.
 
 ```html
@@ -21,21 +45,21 @@ Set 'async' class in your anchors, also set the id of element to push async data
     </div>
 ```
 
-## Async Template
+## Frontend Async Template
 The async template has just the content block.
 
 ```html
    {% block content %}{% endblock %}
 ```
 
-## Extending Templates
+## Frontend Extending Templates
 This is where the magic happens, setting up the template dynamically.
 
 ```html
    {% extends template_base %}
 ```
 
-## Javascript
+## Frontend Javascript
 Use the custom Javascript to capture click on anchors with async class and create the fetch request instead.
 
 ```javascript
@@ -60,28 +84,3 @@ for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
     });
 }
 ```
-
-## Backend
-Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*.
-
-```python
-from django.views.generic.base import TemplateView
-from django.shortcuts import render
-from django.conf import settings
-
-
-class TemplateBaseMixin(object):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['template_base'] = settings.TEMPLATE_BASE_ASYNC_PATH if self.request.GET.get('async', None) == 'true' else settings.TEMPLATE_BASE_SYNC_PATH
-        return context
-
-
-class HomePageView(TemplateBaseMixin, TemplateView):
-    template_name = "core/home.html"
-
-
-class SamplePageView(TemplateBaseMixin, TemplateView):
-    template_name = "core/sample.html"
-```
-
