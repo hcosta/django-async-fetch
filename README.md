@@ -28,6 +28,13 @@ The async template has just the content block.
    {% block content %}{% endblock %}
 ```
 
+## Extending Templates
+This is where the magic happens, setting up the template dynamically.
+
+```html
+   {% extends template_base %}
+```
+
 ## Javascript
 Use the custom Javascript to capture click on anchors with async class and create the fetch request instead.
 
@@ -44,7 +51,8 @@ for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
         var this_ = this;
         if (this.href != document.URL){
             history.pushState(null, '', this.href.replace(/^.*\/\/[^\/]+/, ''));
-            fetch(this.href+"?async=true", {'credentials':'include'}).then(response => response.text()).then(function(data){
+            fetch(this.href+"?async=true", {'credentials':'include'})
+            .then(response => response.text()).then(function(data){
                 document.getElementById(this_.dataset.target).innerHTML = data;
             });        
         }
@@ -63,10 +71,10 @@ from django.conf import settings
 
 
 class TemplateBaseMixin(object):
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {
-            'template_base': settings.TEMPLATE_BASE_ASYNC_PATH if request.GET.get('async', None) == 'true' else settings.TEMPLATE_BASE_SYNC_PATH
-            })
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['template_base'] = settings.TEMPLATE_BASE_ASYNC_PATH if self.request.GET.get('async', None) == 'true' else settings.TEMPLATE_BASE_SYNC_PATH
+        return context
 
 
 class HomePageView(TemplateBaseMixin, TemplateView):
