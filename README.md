@@ -11,7 +11,7 @@ TEMPLATE_BASE_SYNC_PATH = "core/base.html"
 TEMPLATE_BASE_ASYNC_PATH = "core/base_async.html"
 ```
 
-## App Views
+### App Views
 Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*. This gonna select one of both templates after checking request.GET parameter *?async=true*.
 
 ```python
