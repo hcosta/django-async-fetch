@@ -7,11 +7,13 @@
 for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
     document.getElementsByClassName("async")[i].addEventListener('click', function (event) {
         event.preventDefault();
-        var this_ = this;
+        var target = document.getElementById(this.dataset.target);
         if (this.href != document.URL){
+            target.classList.remove('animated', 'bounceIn');
             history.pushState(null, '', this.href.replace(/^.*\/\/[^\/]+/, ''));
             fetch(this.href+"?async=true", {'credentials':'include'}).then(response => response.text()).then(function(data){
-                document.getElementById(this_.dataset.target).innerHTML = data;
+                target.innerHTML = data;
+                target.classList.add('animated', 'bounceIn');
             });        
         }
         return false;

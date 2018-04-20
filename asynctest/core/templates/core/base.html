@@ -11,6 +11,7 @@
     <!-- Estilos -->
     <link href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'core/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'core/vendor/animate/css/animate.min.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/main.css' %}?{% now "His" %}" rel="stylesheet">
   </head>
   <body>
@@ -50,7 +51,7 @@
       <!-- Javascript -->
       <script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
       <script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'core/js/main.js' %}"></script>
+      <script src="{% static 'core/js/main.js' %}?{% now "His" %}"></script>
       {% block javascript %}{% endblock %}
   </body>
 </html>

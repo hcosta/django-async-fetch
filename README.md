@@ -1,6 +1,11 @@
 # async-selective-fetch-with-django-2
 Simple test with javascript Fetch API and Django 2 with async templates.
 
+This method doesn't affect to SEO because only works asynchronously on client side.
+
+## Demo
+
+
 ## Backend
 
 ### Project Settings
@@ -12,7 +17,7 @@ TEMPLATE_BASE_ASYNC_PATH = "core/base_async.html"
 ```
 
 ### App Views
-Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*. This gonna select one of both templates after checking request.GET parameter *?async=true*.
+Pass the TemplateBaseMixin in all CBV, also load *settings* from *django.conf*. This gonna **select** one of both templates after checking request.GET parameter *?async=true*.
 
 ```python
 from django.views.generic.base import TemplateView
@@ -81,6 +86,33 @@ for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
             fetch(this.href+"?async=true", {'credentials':'include'})
             .then(response => response.text()).then(function(data){
                 document.getElementById(this_.dataset.target).innerHTML = data;
+            });        
+        }
+        return false;
+    });
+}
+```
+
+### Javascript with CSS Animations 
+I have added css animations, the effect is really cool thanks to [Animate.css](https://daneden.github.io/animate.css/) by Daniel Eden.
+
+```javascript
+/**
+ * @author Héctor Costa <hola@hektorprofe.net>
+ * @description First disable all anchors with async class, then creates the request with async fetch and push response in data-target element
+ * @version 1.0
+ */
+
+for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
+    document.getElementsByClassName("async")[i].addEventListener('click', function (event) {
+        event.preventDefault();
+        var target = document.getElementById(this.dataset.target);
+        if (this.href != document.URL){
+            target.classList.remove('animated', 'bounceIn');
+            history.pushState(null, '', this.href.replace(/^.*\/\/[^\/]+/, ''));
+            fetch(this.href+"?async=true", {'credentials':'include'}).then(response => response.text()).then(function(data){
+                target.innerHTML = data;
+                target.classList.add('animated', 'bounceIn');
             });        
         }
         return false;
