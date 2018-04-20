@@ -9,7 +9,7 @@ for (var i = 0; i < document.getElementsByClassName("async").length; i++) {
         event.preventDefault();
         var this_ = this;
         if (this.href != document.URL){
-            history.pushState(null, '',this.href.replace(/^.*\/\/[^\/]+/, ''));
+            history.pushState(null, '', this.href.replace(/^.*\/\/[^\/]+/, ''));
             fetch(this.href+"?async=true", {'credentials':'include'}).then(response => response.text()).then(function(data){
                 document.getElementById(this_.dataset.target).innerHTML = data;
             });        
