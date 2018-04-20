@@ -3,8 +3,10 @@ Simple test with javascript Fetch API and Django 2 with async templates.
 
 This method doesn't affect to SEO because only works asynchronously on client side.
 
-## Demo
+* TO DO: Add History support.
 
+## Demo
+<img src="/docs/animation.gif"/>
 
 ## Backend
 
