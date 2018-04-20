@@ -3,7 +3,9 @@ Simple test with javascript Fetch API and Django 2 with async templates.
 
 This method doesn't affect to SEO because only works asynchronously on client side.
 
-* TO DO: Add History support.
+## Updates
+### 1.1
+* History back/forward support working as sync requests.
 
 ## Demo
 <img src="/docs/animation.gif"/>
