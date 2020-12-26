@@ -1,10 +1,12 @@
-# async-selective-fetch-with-django-2
-Simple test with javascript Fetch API and Django 2 with async templates.
+# Async selective fetch with Django
+
+Simple prototipe with javascript Fetch API and Django using async templates.
 
 This method doesn't affect to SEO because only works asynchronously on client side.
 
 ## Updates
-### 1.1
+
+* Compatibility for Django >=3.0.
 * History back/forward support working as sync requests.
 
 ## Demo
